@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: hackpilot-ai
+
+  datasource:
+    url: ${NEON_DB_URL:postgresql://ep-snowy-bird-aqss7m6c-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require}
+    username: ${NEON_DB_USER:neondb_owner}
+    password: ${NEON_DB_PASS:npg_J41bYisZAjLp}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      connection-timeout: 30000
+      idle-timeout: 60000
+      max-lifetime: 120000
+      keepalive-time: 30000
+      data-source-properties:
+        sslmode: require
+        ssl: true
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
+
+  websocket:
+    allowed-origins: "http://localhost:5173,https://*.vercel.app"
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+
+jwt:
+  secret: ${JWT_SECRET:9167abaf-a43e-4bfc-b862-e53d562ee474}
+  expiration: 86400000
+
+openai:
+  api:
+    key: ${OPENAI_API_KEY}
+    url: https://api.openai.com/v1/chat/completions
+    model: gpt-4o
+    max-tokens: 4000
+
+ai-agents:
+  base-url: ${AI_AGENTS_URL:http://localhost:8000}
+
+github:
+  api:
+    base-url: https://api.github.com
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
